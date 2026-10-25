@@ -1,0 +1,12 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Chrono.Net.AppGen.App"
+             Name="Chrono.Net App Generator"
+             RequestedThemeVariant="Dark">
+  <Application.Styles>
+    <FluentTheme />
+    <StyleInclude Source="avares://Chrono.Net.Avalonia/Themes/ChronoTheme.axaml" />
+    <StyleInclude Source="avares://AvaloniaEdit/Themes/Fluent/AvaloniaEdit.xaml" />
+    <StyleInclude Source="avares://ChronoAppGen/Themes/AppGenTheme.axaml" />
+  </Application.Styles>
+</Application>

@@ -1,0 +1,511 @@
+{
+  "name": "Pendulum wave",
+  "description": "15 uncoupled pendulums whose lengths give 51..65 swings per minute, producing travelling-wave patterns.",
+  "settings": {
+    "timeStep": 0.002,
+    "duration": 60,
+    "timestepper": "EulerImplicitLinearized"
+  },
+  "bodies": [
+    {
+      "name": "ground",
+      "shape": "Box",
+      "size": [
+        6,
+        0.2,
+        3
+      ],
+      "position": [
+        0,
+        -0.1,
+        0
+      ],
+      "fixed": true,
+      "color": "#2A3342"
+    },
+    {
+      "name": "beam",
+      "shape": "Box",
+      "size": [
+        4.6,
+        0.08,
+        0.08
+      ],
+      "position": [
+        0,
+        2.6,
+        0
+      ],
+      "fixed": true,
+      "collide": false,
+      "color": "#475569"
+    },
+    {
+      "name": "bob0",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -2.1,
+        2.2729021083913863,
+        0.10628054757989491
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#F2A33A"
+    },
+    {
+      "name": "bob1",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -1.7999999999999998,
+        2.2853618283749983,
+        0.10223213914767257
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#F59E0B"
+    },
+    {
+      "name": "bob2",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -1.5,
+        2.2971229561858295,
+        0.0984107170720209
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#EAB308"
+    },
+    {
+      "name": "bob3",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -1.2,
+        2.3082367571762674,
+        0.0947996242302149
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#84CC16"
+    },
+    {
+      "name": "bob4",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -0.8999999999999999,
+        2.3187498789838004,
+        0.09138370388605177
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#22C55E"
+    },
+    {
+      "name": "bob5",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -0.6,
+        2.3287048418131366,
+        0.088149140387534
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#14B8A6"
+    },
+    {
+      "name": "bob6",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        -0.3,
+        2.3381404690446277,
+        0.08508331925371086
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#06B6D4"
+    },
+    {
+      "name": "bob7",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        0.0,
+        2.347092266327585,
+        0.0821747039997939
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#0EA5E9"
+    },
+    {
+      "name": "bob8",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        0.3,
+        2.355592756083308,
+        0.07941272745053335
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#3B82F6"
+    },
+    {
+      "name": "bob9",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        0.6,
+        2.3636717733127766,
+        0.07678769562647408
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#6366F1"
+    },
+    {
+      "name": "bob10",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        0.8999999999999999,
+        2.371356727741466,
+        0.07429070256794051
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#8B5CF6"
+    },
+    {
+      "name": "bob11",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        1.2,
+        2.37867283660926,
+        0.07191355469701008
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#A855F7"
+    },
+    {
+      "name": "bob12",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        1.5,
+        2.385643331802972,
+        0.06964870351607623
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#D946EF"
+    },
+    {
+      "name": "bob13",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        1.7999999999999998,
+        2.3922896445131827,
+        0.06748918560920573
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#EC4899"
+    },
+    {
+      "name": "bob14",
+      "shape": "Sphere",
+      "size": [
+        0.11
+      ],
+      "position": [
+        2.1,
+        2.398631570159999,
+        0.06542856905451046
+      ],
+      "density": 7800,
+      "collide": false,
+      "color": "#F43F5E"
+    }
+  ],
+  "joints": [
+    {
+      "name": "hinge0",
+      "type": "Revolute",
+      "body1": "bob0",
+      "body2": "ground",
+      "position": [
+        -2.1,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge1",
+      "type": "Revolute",
+      "body1": "bob1",
+      "body2": "ground",
+      "position": [
+        -1.7999999999999998,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge2",
+      "type": "Revolute",
+      "body1": "bob2",
+      "body2": "ground",
+      "position": [
+        -1.5,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge3",
+      "type": "Revolute",
+      "body1": "bob3",
+      "body2": "ground",
+      "position": [
+        -1.2,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge4",
+      "type": "Revolute",
+      "body1": "bob4",
+      "body2": "ground",
+      "position": [
+        -0.8999999999999999,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge5",
+      "type": "Revolute",
+      "body1": "bob5",
+      "body2": "ground",
+      "position": [
+        -0.6,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge6",
+      "type": "Revolute",
+      "body1": "bob6",
+      "body2": "ground",
+      "position": [
+        -0.3,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge7",
+      "type": "Revolute",
+      "body1": "bob7",
+      "body2": "ground",
+      "position": [
+        0.0,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge8",
+      "type": "Revolute",
+      "body1": "bob8",
+      "body2": "ground",
+      "position": [
+        0.3,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge9",
+      "type": "Revolute",
+      "body1": "bob9",
+      "body2": "ground",
+      "position": [
+        0.6,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge10",
+      "type": "Revolute",
+      "body1": "bob10",
+      "body2": "ground",
+      "position": [
+        0.8999999999999999,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge11",
+      "type": "Revolute",
+      "body1": "bob11",
+      "body2": "ground",
+      "position": [
+        1.2,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge12",
+      "type": "Revolute",
+      "body1": "bob12",
+      "body2": "ground",
+      "position": [
+        1.5,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge13",
+      "type": "Revolute",
+      "body1": "bob13",
+      "body2": "ground",
+      "position": [
+        1.7999999999999998,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "hinge14",
+      "type": "Revolute",
+      "body1": "bob14",
+      "body2": "ground",
+      "position": [
+        2.1,
+        2.6,
+        0
+      ],
+      "axis": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}

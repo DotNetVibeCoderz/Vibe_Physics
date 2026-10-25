@@ -1,0 +1,158 @@
+{
+  "name": "Motorized turntable",
+  "description": "A speed motor spins a disk; blocks on it slide off when friction can no longer supply the centripetal force.",
+  "settings": {
+    "timeStep": 0.002,
+    "duration": 10
+  },
+  "materials": {
+    "rubber": {
+      "friction": 0.35
+    }
+  },
+  "bodies": [
+    {
+      "name": "ground",
+      "shape": "Box",
+      "size": [
+        12,
+        1,
+        12
+      ],
+      "position": [
+        0,
+        -0.5,
+        0
+      ],
+      "fixed": true,
+      "color": "#2A3342",
+      "material": "rubber"
+    },
+    {
+      "name": "disk",
+      "shape": "Cylinder",
+      "axis": "Y",
+      "size": [
+        1.6,
+        0.15
+      ],
+      "position": [
+        0,
+        0.3,
+        0
+      ],
+      "density": 2000,
+      "material": "rubber",
+      "color": "#334155"
+    },
+    {
+      "name": "block0",
+      "shape": "Box",
+      "size": [
+        0.25,
+        0.2,
+        0.25
+      ],
+      "position": [
+        0.3,
+        0.48,
+        0
+      ],
+      "density": 600,
+      "material": "rubber",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "block1",
+      "shape": "Box",
+      "size": [
+        0.25,
+        0.2,
+        0.25
+      ],
+      "position": [
+        0.55,
+        0.48,
+        0
+      ],
+      "density": 600,
+      "material": "rubber",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "block2",
+      "shape": "Box",
+      "size": [
+        0.25,
+        0.2,
+        0.25
+      ],
+      "position": [
+        0.8,
+        0.48,
+        0
+      ],
+      "density": 600,
+      "material": "rubber",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "block3",
+      "shape": "Box",
+      "size": [
+        0.25,
+        0.2,
+        0.25
+      ],
+      "position": [
+        1.05,
+        0.48,
+        0
+      ],
+      "density": 600,
+      "material": "rubber",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "block4",
+      "shape": "Box",
+      "size": [
+        0.25,
+        0.2,
+        0.25
+      ],
+      "position": [
+        1.3,
+        0.48,
+        0
+      ],
+      "density": 600,
+      "material": "rubber",
+      "color": "#F2A33A"
+    }
+  ],
+  "joints": [],
+  "motors": [
+    {
+      "name": "spindle",
+      "type": "RotationSpeed",
+      "body1": "disk",
+      "body2": "ground",
+      "position": [
+        0,
+        0.3,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "function": {
+        "type": "ramp",
+        "value": 0,
+        "slope": 0.8
+      }
+    }
+  ]
+}

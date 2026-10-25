@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <PackageId>Chrono.Net.Samples</PackageId>
+    <Description>Ready-to-run Chrono.Net sample scenes (mechanisms, contacts, robotics, FEA, vehicles) used by the Gallery, CLI and Simulator.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+  </ItemGroup>
+
+  <!-- Sample sources are embedded so galleries can show the exact code that runs. -->
+  <ItemGroup>
+    <EmbeddedResource Include="Catalog\*.cs" LogicalName="sample:%(Filename)" />
+  </ItemGroup>
+
+</Project>

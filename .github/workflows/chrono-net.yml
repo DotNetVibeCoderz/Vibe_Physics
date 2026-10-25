@@ -1,0 +1,122 @@
+# Chrono.Net — build Project Chrono + the native shim, test, pack, and (on release) publish to nuget.org.
+#
+# Publishing happens only when a GitHub Release is published for a tag `chrono-net-v<version>`
+# (e.g. chrono-net-v0.1.0), or for a manual run with `publish: true`. The API key comes from the NUGET_API_KEY
+# repository secret. (A plain tag push would not work here: `paths` filters see no changed files for tags.)
+#
+# The first run builds Chrono from source (≈2 h on a hosted runner). Its install tree is cached right after the
+# native build, so later runs only rebuild the shim.
+name: Chrono.Net
+
+on:
+  push:
+    branches: [main]
+    paths: ['Chrono.Net/**', '.github/workflows/chrono-net.yml']
+  release:
+    types: [published]
+  pull_request:
+    paths: ['Chrono.Net/**', '.github/workflows/chrono-net.yml']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Push the packages to nuget.org
+        type: boolean
+        default: false
+      version:
+        description: Package version (blank = Version in Directory.Build.props)
+        type: string
+        default: ''
+
+concurrency:
+  group: chrono-net-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CHRONO_TAG: 10.0.0
+  EIGEN_TAG: 3.4.1
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    # Releases of the other libraries in this repository do not concern Chrono.Net.
+    if: github.event_name != 'release' || startsWith(github.event.release.tag_name, 'chrono-net-v')
+    runs-on: windows-latest
+    timeout-minutes: 360
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: Chrono.Net
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: Chrono.Net/global.json
+
+      - name: Restore Chrono cache
+        id: chrono-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            Chrono.Net/external/chrono
+            Chrono.Net/external/eigen-${{ env.EIGEN_TAG }}
+            Chrono.Net/external/chrono-install
+          key: chrono-${{ env.CHRONO_TAG }}-eigen-${{ env.EIGEN_TAG }}-${{ runner.os }}-${{ hashFiles('Chrono.Net/build/build-native.ps1') }}
+
+      - name: Build native (Chrono + shim)
+        env:
+          CACHE_HIT: ${{ steps.chrono-cache.outputs.cache-hit }}
+        run: |
+          if ($env:CACHE_HIT -eq 'true') {
+            ./build/build-native.ps1 -ChronoTag $env:CHRONO_TAG -EigenTag $env:EIGEN_TAG -SkipChrono
+          } else {
+            ./build/build-native.ps1 -ChronoTag $env:CHRONO_TAG -EigenTag $env:EIGEN_TAG -Jobs 4
+          }
+
+      # Saved immediately (not at job end) so a later test failure does not throw away a 2-hour build.
+      - name: Save Chrono cache
+        if: steps.chrono-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            Chrono.Net/external/chrono
+            Chrono.Net/external/eigen-${{ env.EIGEN_TAG }}
+            Chrono.Net/external/chrono-install
+          key: ${{ steps.chrono-cache.outputs.cache-primary-key }}
+
+      - name: Build
+        run: dotnet build Chrono.Net.slnx -c Release
+
+      - name: Test
+        run: dotnet test --project tests/Chrono.Net.Tests -c Release --no-build
+
+      - name: Pack (and publish on release)
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_PUBLISH: ${{ inputs.publish }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $version = $env:INPUT_VERSION
+          $publish = $env:INPUT_PUBLISH -eq 'true'
+          if ($env:RELEASE_TAG) {
+            $version = $env:RELEASE_TAG -replace '^chrono-net-v', ''
+            $publish = $true
+          }
+          if ($publish -and -not $env:NUGET_API_KEY) { throw 'NUGET_API_KEY secret is not set.' }
+          ./build/pack.ps1 -Version $version -Publish:$publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chrono-net-packages
+          path: Chrono.Net/artifacts/packages/*.nupkg
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chrono-net-native-win-x64
+          path: Chrono.Net/artifacts/native/win-x64/*.dll

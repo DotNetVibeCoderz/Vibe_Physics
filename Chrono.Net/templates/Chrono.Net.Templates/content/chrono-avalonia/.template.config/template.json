@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Gravicode Studios (led by Kang Fadhil)",
+  "classifications": [ "Desktop", "Avalonia", "Simulation", "Physics" ],
+  "identity": "Chrono.Net.Templates.Avalonia",
+  "name": "Chrono.Net Avalonia App",
+  "description": "A desktop app with an interactive Chrono.Net 3D viewport, live plots and run/pause controls.",
+  "shortName": "chrono-avalonia",
+  "sourceName": "ChronoAvaloniaApp",
+  "preferNameDirectory": true,
+  "tags": { "language": "C#", "type": "project" }
+}

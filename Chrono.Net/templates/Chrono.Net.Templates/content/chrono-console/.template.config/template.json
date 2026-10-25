@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Gravicode Studios (led by Kang Fadhil)",
+  "classifications": [ "Console", "Simulation", "Physics" ],
+  "identity": "Chrono.Net.Templates.Console",
+  "name": "Chrono.Net Console Simulation",
+  "description": "A console app that builds a Project Chrono scene, simulates it and renders a PNG.",
+  "shortName": "chrono-console",
+  "sourceName": "ChronoConsoleApp",
+  "preferNameDirectory": true,
+  "tags": { "language": "C#", "type": "project" }
+}

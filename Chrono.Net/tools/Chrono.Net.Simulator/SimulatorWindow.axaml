@@ -1,0 +1,89 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cn="clr-namespace:Chrono.Net.Avalonia;assembly=Chrono.Net.Avalonia"
+        x:Class="Chrono.Net.Simulator.SimulatorWindow"
+        Title="Chrono.Net Simulator" Width="1500" Height="920" MinWidth="1000" MinHeight="620"
+        WindowStartupLocation="CenterScreen" DragDrop.AllowDrop="True">
+
+  <DockPanel>
+    <!-- Toolbar -->
+    <Border DockPanel.Dock="Top" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,0,1" Padding="14,10">
+      <Grid ColumnDefinitions="Auto,*,Auto">
+        <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+          <TextBlock Classes="display" Text="CHRONO.NET SIMULATOR" FontSize="22" LetterSpacing="1.2" VerticalAlignment="Center" />
+          <TextBlock x:Name="FileLabel" Classes="mono muted" VerticalAlignment="Center" Margin="12,0,0,0" />
+        </StackPanel>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8">
+          <Button x:Name="NewButton" Classes="transport" Content="New" />
+          <Button x:Name="OpenButton" Classes="transport" Content="Open…" />
+          <Button x:Name="SaveButton" Classes="transport" Content="Save…" />
+          <Border Width="1" Background="{StaticResource RuleBrush}" Margin="6,2" />
+          <Button x:Name="CsvButton" Classes="transport" Content="Export CSV…" />
+          <Button x:Name="PngButton" Classes="transport" Content="Snapshot PNG…" />
+        </StackPanel>
+      </Grid>
+    </Border>
+
+    <!-- Status bar -->
+    <Border DockPanel.Dock="Bottom" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,1,0,0" Padding="14,6">
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBlock x:Name="StatusText" Classes="mono" Foreground="{StaticResource TraceBrush}" />
+        <TextBlock Grid.Column="1" Classes="muted" FontSize="11" Text="Made by Gravicode Studios, led by Kang Fadhil · Dibuat oleh Gravicode Studios dipimpin oleh Kang Fadhil" />
+      </Grid>
+    </Border>
+
+    <Grid ColumnDefinitions="260,*,400">
+      <!-- Scene tree -->
+      <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,1,0">
+        <DockPanel Margin="12">
+          <TextBlock DockPanel.Dock="Top" Classes="eyebrow" Text="BODIES" Margin="4,4,0,8" />
+          <ListBox x:Name="BodyList" Background="Transparent" />
+        </DockPanel>
+      </Border>
+
+      <!-- Stage -->
+      <Grid Grid.Column="1" RowDefinitions="*,Auto,180" Margin="14">
+        <Border CornerRadius="10" ClipToBounds="True" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1">
+          <Panel>
+            <cn:ChronoViewport x:Name="Viewport" />
+            <Border x:Name="ErrorPanel" IsVisible="False" Background="#E6121620" Padding="32">
+              <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520" Spacing="8">
+                <TextBlock x:Name="ErrorTitle" Classes="display" FontSize="24" Foreground="{StaticResource SignalBrush}" />
+                <TextBlock x:Name="ErrorBody" Classes="muted" TextWrapping="Wrap" />
+              </StackPanel>
+            </Border>
+          </Panel>
+        </Border>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" Margin="0,12">
+          <Button x:Name="RunButton" Classes="transport primary" Content="Run" MinWidth="88" />
+          <Button x:Name="StepButton" Classes="transport" Content="Step" />
+          <Button x:Name="ResetButton" Classes="transport" Content="Reset" />
+          <CheckBox x:Name="ContactsCheck" Content="Show contacts" Margin="16,0,0,0" />
+          <CheckBox x:Name="ShadowsCheck" Content="Shadows" IsChecked="True" />
+        </StackPanel>
+        <cn:ChronoPlot x:Name="Plot" Grid.Row="2" TimeWindow="10" />
+      </Grid>
+
+      <!-- Editor / inspector -->
+      <Border Grid.Column="2" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1,0,0,0">
+        <TabControl Margin="8,8,8,0">
+          <TabItem Header="Inspector">
+            <ScrollViewer>
+              <StackPanel x:Name="Inspector" Margin="8,10" Spacing="6" />
+            </ScrollViewer>
+          </TabItem>
+          <TabItem Header="Scene JSON">
+            <DockPanel>
+              <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,8">
+                <Button x:Name="ApplyButton" Classes="transport primary" Content="Apply &amp; reload" />
+                <TextBlock x:Name="JsonError" Foreground="#F87171" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="12" />
+              </StackPanel>
+              <TextBox x:Name="JsonEditor" AcceptsReturn="True" AcceptsTab="True" FontFamily="{StaticResource MonoFont}" FontSize="12"
+                       TextWrapping="NoWrap" Background="#0E1219" Margin="0,0,0,12" />
+            </DockPanel>
+          </TabItem>
+        </TabControl>
+      </Border>
+    </Grid>
+  </DockPanel>
+</Window>

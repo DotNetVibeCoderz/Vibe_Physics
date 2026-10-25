@@ -1,0 +1,77 @@
+@namespace Chrono.Net.Blazor
+@using Microsoft.JSInterop
+@using Chrono.Net.Rendering
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<canvas @ref="_canvas" class="chrono-viewport @Class" style="width:100%;height:100%;display:block;touch-action:none;outline:none" tabindex="0"></canvas>
+
+@code {
+    private ElementReference _canvas;
+    private IJSObjectReference? _module;
+    private int _id;
+    private byte[]? _frameBuffer;
+    private RenderWorld? _shownWorld;
+    private Task? _inFlight;
+
+    /// <summary>World to display. Changing it re-sends the scene description.</summary>
+    [Parameter] public RenderWorld? World { get; set; }
+
+    /// <summary>Initial camera: target, distance, yaw/pitch in degrees; optional body index to follow.</summary>
+    [Parameter] public ViewportCamera? Camera { get; set; }
+
+    [Parameter] public string? Class { get; set; }
+    [Parameter] public string Background { get; set; } = "#12161F";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Chrono.Net.Blazor/chrono-viewport.js");
+            _id = await _module.InvokeAsync<int>("create", _canvas, new { background = Background });
+        }
+        if (_module is not null && World is not null && !ReferenceEquals(World, _shownWorld))
+        {
+            _shownWorld = World;
+            await _module.InvokeVoidAsync("setScene", _id, SceneSerializer.Describe(World), Camera?.ToJs());
+            await PushFrameAsync();
+        }
+    }
+
+    /// <summary>
+    /// Sends the current body transforms (binary) and FEA lines to the browser. If the previous frame has not been
+    /// acknowledged yet, this frame is dropped, so a slow client lowers the frame rate instead of the physics rate.
+    /// </summary>
+    public Task PushFrameAsync()
+    {
+        if (_module is null || World is null || !ReferenceEquals(World, _shownWorld)) return Task.CompletedTask;
+        if (_inFlight is { IsCompleted: false }) return Task.CompletedTask;
+        var frames = SceneSerializer.PackBodyFrames(World.System.GetBodyStates(), ref _frameBuffer);
+        var lines = SceneSerializer.PackLines(World);
+        _inFlight = SendAsync(_module, frames, lines);
+        return Task.CompletedTask;
+    }
+
+    private async Task SendAsync(IJSObjectReference module, byte[] frames, byte[] lines)
+    {
+        try { await module.InvokeVoidAsync("update", _id, frames, lines); }
+        catch (JSDisconnectedException) { }
+        catch (TaskCanceledException) { }
+    }
+
+    public async Task SetCameraAsync(ViewportCamera camera)
+    {
+        if (_module is not null) await _module.InvokeVoidAsync("setCamera", _id, camera.ToJs());
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is null) return;
+        try
+        {
+            await _module.InvokeVoidAsync("dispose", _id);
+            await _module.DisposeAsync();
+        }
+        catch (JSDisconnectedException) { }
+    }
+}

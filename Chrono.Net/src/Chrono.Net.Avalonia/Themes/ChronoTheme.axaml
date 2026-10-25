@@ -1,0 +1,116 @@
+<!-- Chrono.Net instrument-bench theme for Avalonia. Include after FluentTheme:
+     <StyleInclude Source="avares://Chrono.Net.Avalonia/Themes/ChronoTheme.axaml" />
+     Made by Gravicode Studios, led by Kang Fadhil. -->
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Styles.Resources>
+    <!-- Fluent accent → signal amber (sliders, focus, toggles) -->
+    <Color x:Key="SystemAccentColor">#F2A33A</Color>
+    <Color x:Key="SystemAccentColorLight1">#F5B562</Color>
+    <Color x:Key="SystemAccentColorLight2">#F8C88A</Color>
+    <Color x:Key="SystemAccentColorLight3">#FBDAB1</Color>
+    <Color x:Key="SystemAccentColorDark1">#D98B22</Color>
+    <Color x:Key="SystemAccentColorDark2">#B87318</Color>
+    <Color x:Key="SystemAccentColorDark3">#8F5911</Color>
+    <!-- Instrument-bench palette -->
+    <Color x:Key="Bench">#12161F</Color>
+    <Color x:Key="Panel">#1A2030</Color>
+    <Color x:Key="Rule">#2A3346</Color>
+    <Color x:Key="Ink">#DCE3EE</Color>
+    <Color x:Key="Muted">#8391A8</Color>
+    <Color x:Key="Signal">#F2A33A</Color>
+    <Color x:Key="Trace">#3CC8B4</Color>
+    <SolidColorBrush x:Key="BenchBrush" Color="{StaticResource Bench}" />
+    <SolidColorBrush x:Key="PanelBrush" Color="{StaticResource Panel}" />
+    <SolidColorBrush x:Key="RuleBrush" Color="{StaticResource Rule}" />
+    <SolidColorBrush x:Key="InkBrush" Color="{StaticResource Ink}" />
+    <SolidColorBrush x:Key="MutedBrush" Color="{StaticResource Muted}" />
+    <SolidColorBrush x:Key="SignalBrush" Color="{StaticResource Signal}" />
+    <SolidColorBrush x:Key="TraceBrush" Color="{StaticResource Trace}" />
+    <FontFamily x:Key="DisplayFont">avares://Chrono.Net.Avalonia/Assets/Fonts#Barlow Condensed</FontFamily>
+    <FontFamily x:Key="MonoFont">avares://Chrono.Net.Avalonia/Assets/Fonts#JetBrains Mono</FontFamily>
+    </Styles.Resources>
+
+
+    <Style Selector="Window">
+      <Setter Property="Background" Value="{StaticResource BenchBrush}" />
+      <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+      <Setter Property="FontFamily" Value="{StaticResource ContentControlThemeFontFamily}" />
+    </Style>
+
+    <Style Selector="TextBlock.display">
+      <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.eyebrow">
+      <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+      <Setter Property="FontWeight" Value="Medium" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="LetterSpacing" Value="1.6" />
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+    </Style>
+    <Style Selector="TextBlock.mono">
+      <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+      <Setter Property="FontSize" Value="12" />
+    </Style>
+    <Style Selector="TextBlock.muted">
+      <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+    </Style>
+
+    <!-- Sample rows in the sidebar -->
+    <Style Selector="Button.sample">
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="Padding" Value="14,9" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="BorderThickness" Value="2,0,0,0" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.sample:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#202839" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.sample.active">
+      <Setter Property="Background" Value="#232B3D" />
+      <Setter Property="BorderBrush" Value="{StaticResource SignalBrush}" />
+    </Style>
+    <Style Selector="Button.sample.active:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#283147" />
+      <Setter Property="BorderBrush" Value="{StaticResource SignalBrush}" />
+    </Style>
+
+    <!-- Transport controls -->
+    <Style Selector="Button.transport">
+      <Setter Property="Background" Value="#232B3D" />
+      <Setter Property="Foreground" Value="{StaticResource InkBrush}" />
+      <Setter Property="Padding" Value="14,7" />
+      <Setter Property="CornerRadius" Value="6" />
+      <Setter Property="FontSize" Value="13" />
+    </Style>
+    <Style Selector="Button.primary">
+      <Setter Property="Background" Value="{StaticResource SignalBrush}" />
+      <Setter Property="Foreground" Value="#1A1206" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="Button.primary:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="#F7B65C" />
+      <Setter Property="Foreground" Value="#1A1206" />
+    </Style>
+
+    <Style Selector="Border.tag">
+      <Setter Property="Background" Value="#202839" />
+      <Setter Property="BorderBrush" Value="{StaticResource RuleBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="4" />
+      <Setter Property="Padding" Value="7,2" />
+      <Setter Property="Margin" Value="0,0,6,6" />
+    </Style>
+
+    <Style Selector="TabItem">
+      <Setter Property="FontFamily" Value="{StaticResource DisplayFont}" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="MinHeight" Value="38" />
+      <Setter Property="Padding" Value="12,0" />
+    </Style>
+  </Styles>

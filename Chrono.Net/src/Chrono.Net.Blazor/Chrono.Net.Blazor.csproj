@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <PackageId>Chrono.Net.Blazor</PackageId>
+    <Description>Blazor components for Chrono.Net: WebGL (three.js) simulation viewport, live SVG signal plots and a real-time simulation loop for interactive server rendering.</Description>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+  </ItemGroup>
+
+</Project>

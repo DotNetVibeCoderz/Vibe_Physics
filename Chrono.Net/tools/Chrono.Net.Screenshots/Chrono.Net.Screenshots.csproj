@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Renders the Avalonia Gallery headlessly to PNG files for README and docs. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Headless" />
+    <PackageReference Include="Avalonia.Skia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\samples\Chrono.Net.Gallery.Avalonia\Chrono.Net.Gallery.Avalonia.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Samples\Chrono.Net.Samples.csproj" />
+    <ProjectReference Include="..\Chrono.Net.AppGen\Chrono.Net.AppGen.csproj" />
+  </ItemGroup>
+
+</Project>

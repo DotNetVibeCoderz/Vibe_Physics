@@ -1,0 +1,668 @@
+{
+  "name": "Box pyramid",
+  "description": "A pyramid of boxes hit by a fast sphere.",
+  "settings": {
+    "timeStep": 0.003,
+    "duration": 8,
+    "solver": "Psor",
+    "solverIterations": 80
+  },
+  "materials": {
+    "wood": {
+      "friction": 0.6,
+      "restitution": 0.05
+    }
+  },
+  "bodies": [
+    {
+      "name": "ground",
+      "shape": "Box",
+      "size": [
+        20,
+        1,
+        20
+      ],
+      "position": [
+        0,
+        -0.5,
+        0
+      ],
+      "fixed": true,
+      "color": "#2A3342",
+      "material": "wood"
+    },
+    {
+      "name": "box0_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.82,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box0_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.3,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box0_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.78,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box0_3",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.26,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box0_4",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.26,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box0_5",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.78,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box0_6",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.3,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box0_7",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.82,
+        0.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box1_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.56,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box1_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.04,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box1_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.52,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box1_3",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.0,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box1_4",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.52,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box1_5",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.04,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box1_6",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.56,
+        0.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box2_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.3,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box2_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.78,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box2_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.26,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box2_3",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.26,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box2_4",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.78,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box2_5",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.3,
+        1.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box3_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -1.04,
+        1.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box3_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.52,
+        1.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box3_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.0,
+        1.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box3_3",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.52,
+        1.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box3_4",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        1.04,
+        1.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box4_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.78,
+        2.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F2A33A"
+    },
+    {
+      "name": "box4_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.26,
+        2.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box4_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.26,
+        2.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box4_3",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.78,
+        2.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box5_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.52,
+        2.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#3CC8B4"
+    },
+    {
+      "name": "box5_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.0,
+        2.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box5_2",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.52,
+        2.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box6_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        -0.26,
+        3.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#60A5FA"
+    },
+    {
+      "name": "box6_1",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.26,
+        3.25,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "box7_0",
+      "shape": "Box",
+      "size": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "position": [
+        0.0,
+        3.75,
+        0
+      ],
+      "density": 400,
+      "material": "wood",
+      "color": "#F472B6"
+    },
+    {
+      "name": "cannonball",
+      "shape": "Sphere",
+      "size": [
+        0.35
+      ],
+      "position": [
+        0,
+        1.2,
+        -6
+      ],
+      "velocity": [
+        0,
+        2,
+        14
+      ],
+      "density": 7800,
+      "material": "wood",
+      "color": "#CBD5E1"
+    }
+  ],
+  "joints": []
+}

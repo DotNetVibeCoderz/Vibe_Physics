@@ -1,0 +1,108 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cn="clr-namespace:Chrono.Net.Avalonia;assembly=Chrono.Net.Avalonia"
+        x:Class="Chrono.Net.Gallery.MainWindow"
+        Title="Chrono.Net Gallery"
+        Width="1480" Height="900" MinWidth="1000" MinHeight="640"
+        WindowStartupLocation="CenterScreen">
+
+  <Grid ColumnDefinitions="292,*,360">
+
+    <!-- ============ Sidebar: brand, search, sample index, credits ============ -->
+    <Border Grid.Column="0" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="0,0,1,0">
+      <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="20,20,20,10" Spacing="2">
+          <StackPanel Orientation="Horizontal" Spacing="8">
+            <Image x:Name="Logo" Width="30" Height="30" VerticalAlignment="Center" />
+            <TextBlock Classes="display" Text="CHRONO.NET" FontSize="28" LetterSpacing="1.5" VerticalAlignment="Center" />
+          </StackPanel>
+          <TextBlock Classes="eyebrow" x:Name="Subtitle" Text="GALLERY · PROJECT CHRONO FOR .NET" />
+          <Grid ColumnDefinitions="*,Auto" Margin="0,14,0,0">
+            <TextBox x:Name="SearchBox" Grid.Column="0" PlaceholderText="Search samples" CornerRadius="6" />
+            <ToggleButton x:Name="LangToggle" Grid.Column="1" Margin="8,0,0,0" Content="EN" Width="46" CornerRadius="6"
+                          ToolTip.Tip="English / Bahasa Indonesia" />
+          </Grid>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Margin="20,10,20,18" Spacing="2">
+          <Border Height="1" Background="{StaticResource RuleBrush}" Margin="0,0,0,10" />
+          <TextBlock x:Name="EngineInfo" Classes="mono muted" FontSize="11" TextWrapping="Wrap" />
+          <TextBlock x:Name="Credits" Classes="muted" FontSize="11" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <ScrollViewer>
+          <StackPanel x:Name="SampleList" Margin="10,4,10,10" />
+        </ScrollViewer>
+      </DockPanel>
+    </Border>
+
+    <!-- ============ Stage: readout strip, viewport, transport, scope ============ -->
+    <Grid Grid.Column="1" RowDefinitions="Auto,*,Auto,190" Margin="18,16,18,16">
+      <StackPanel Grid.Row="0" Spacing="4" Margin="2,0,0,12">
+        <TextBlock x:Name="CategoryLabel" Classes="eyebrow" Foreground="{StaticResource SignalBrush}" />
+        <TextBlock x:Name="TitleText" Classes="display" FontSize="38" />
+        <!-- Signature: instrument readout strip -->
+        <Border Background="#0E1219" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1" CornerRadius="6" Padding="12,7" Margin="0,6,0,0">
+          <TextBlock x:Name="Readout" Classes="mono" Foreground="{StaticResource TraceBrush}" Text="—" />
+        </Border>
+      </StackPanel>
+
+      <Border Grid.Row="1" CornerRadius="10" ClipToBounds="True" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1">
+        <Panel>
+          <cn:ChronoViewport x:Name="Viewport" />
+          <Border x:Name="EmptyState" IsVisible="False" Background="#E6121620" Padding="40">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="460" Spacing="10">
+              <TextBlock x:Name="EmptyTitle" Classes="display" FontSize="26" Foreground="{StaticResource SignalBrush}" />
+              <TextBlock x:Name="EmptyBody" TextWrapping="Wrap" Classes="muted" />
+            </StackPanel>
+          </Border>
+        </Panel>
+      </Border>
+
+      <Grid Grid.Row="2" ColumnDefinitions="Auto,Auto,Auto,Auto,*,Auto" Margin="0,12,0,12">
+        <Button x:Name="RunButton" Grid.Column="0" Classes="transport primary" Content="Run" MinWidth="88" />
+        <Button x:Name="StepButton" Grid.Column="1" Classes="transport" Content="Step" Margin="8,0,0,0" />
+        <Button x:Name="ResetButton" Grid.Column="2" Classes="transport" Content="Reset" Margin="8,0,0,0" />
+        <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" Margin="18,0,0,0" VerticalAlignment="Center">
+          <TextBlock x:Name="SpeedLabel" Classes="muted" Text="Speed" VerticalAlignment="Center" FontSize="12" />
+          <Slider x:Name="SpeedSlider" Minimum="0.1" Maximum="2" Value="1" Width="130" VerticalAlignment="Center" />
+          <TextBlock x:Name="SpeedValue" Classes="mono" Text="1.0×" VerticalAlignment="Center" Width="40" />
+        </StackPanel>
+        <TextBlock x:Name="HintText" Grid.Column="5" Classes="muted" FontSize="11" VerticalAlignment="Center" />
+      </Grid>
+
+      <cn:ChronoPlot x:Name="Plot" Grid.Row="3" TimeWindow="8" />
+    </Grid>
+
+    <!-- ============ Inspector: description and source ============ -->
+    <Border Grid.Column="2" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1,0,0,0">
+      <TabControl x:Name="Tabs" Margin="8,8,8,0">
+        <TabItem x:Name="AboutTab" Header="About">
+          <ScrollViewer>
+            <StackPanel Margin="8,10,8,20" Spacing="14">
+              <TextBlock x:Name="DescriptionText" TextWrapping="Wrap" LineHeight="22" FontSize="14" />
+              <StackPanel Spacing="8">
+                <TextBlock x:Name="TagsLabel" Classes="eyebrow" Text="DEMONSTRATES" />
+                <WrapPanel x:Name="TagPanel" />
+              </StackPanel>
+              <StackPanel Spacing="8">
+                <TextBlock x:Name="SignalsLabel" Classes="eyebrow" Text="SIGNALS" />
+                <StackPanel x:Name="SignalPanel" Spacing="6" />
+              </StackPanel>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem x:Name="CodeTab" Header="Code">
+          <DockPanel>
+            <Button x:Name="CopyButton" DockPanel.Dock="Top" HorizontalAlignment="Right" Classes="transport" Content="Copy code" Margin="0,6,4,8" />
+            <Border Background="#0E1219" CornerRadius="8" BorderBrush="{StaticResource RuleBrush}" BorderThickness="1" Margin="0,0,0,12">
+              <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                <SelectableTextBlock x:Name="CodeText" FontFamily="{StaticResource MonoFont}" FontSize="11.5" Margin="12" Foreground="#C9D4E5" />
+              </ScrollViewer>
+            </Border>
+          </DockPanel>
+        </TabItem>
+      </TabControl>
+    </Border>
+  </Grid>
+</Window>

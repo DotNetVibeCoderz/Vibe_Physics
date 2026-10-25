@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>ChronoAppGen</AssemblyName>
+    <RootNamespace>Chrono.Net.AppGen</RootNamespace>
+    <Product>Chrono.Net App Generator</Product>
+    <IsPackable>false</IsPackable>
+    <ApplicationIcon>..\..\assets\icon.ico</ApplicationIcon>
+    <AvaloniaUseCompiledBindingsByDefault>false</AvaloniaUseCompiledBindingsByDefault>
+    <!-- Semantic Kernel experimental APIs (IChatClient integration). -->
+    <NoWarn>$(NoWarn);SKEXP0001;SKEXP0010;MEAI001;OPENAI001;CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+    <PackageReference Include="Avalonia.AvaloniaEdit" />
+    <PackageReference Include="AvaloniaEdit.TextMate" />
+    <PackageReference Include="TextMateSharp.Grammars" />
+    <PackageReference Include="Microsoft.SemanticKernel" />
+    <PackageReference Include="Microsoft.Extensions.AI.OpenAI" />
+    <PackageReference Include="Anthropic" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" />
+    <PackageReference Include="HtmlAgilityPack" />
+    <PackageReference Include="NCalcSync" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Avalonia\Chrono.Net.Avalonia.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Samples\Chrono.Net.Samples.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\..\assets\icon.png" Link="Assets\icon.png" />
+  </ItemGroup>
+
+</Project>

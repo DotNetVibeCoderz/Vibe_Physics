@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageType>Template</PackageType>
+    <PackageId>Chrono.Net.Templates</PackageId>
+    <Title>Chrono.Net project templates</Title>
+    <Description>dotnet new templates for Chrono.Net: console simulation (chrono-console), Avalonia desktop app (chrono-avalonia) and Blazor web app (chrono-blazor).</Description>
+    <PackageTags>$(PackageTags);dotnet-new;templates</PackageTags>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <EnableDefaultItems>false</EnableDefaultItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="content\**\*" Exclude="content\**\bin\**;content\**\obj\**" />
+  </ItemGroup>
+
+</Project>

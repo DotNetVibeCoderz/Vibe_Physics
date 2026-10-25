@@ -1,0 +1,249 @@
+@page "/"
+@page "/samples/{SampleId}"
+@implements IAsyncDisposable
+@inject NavigationManager Nav
+
+<PageTitle>@(_sample?.Title ?? "Gallery") · Chrono.Net</PageTitle>
+
+<div class="bench">
+    <aside class="index" aria-label="@(_id ? "Daftar contoh" : "Sample index")">
+        <header class="brand">
+            <img src="icon.png" alt="" class="brand-mark" onerror="this.style.display='none'" />
+            <div>
+                <h1 class="wordmark">CHRONO.NET</h1>
+                <p class="eyebrow">@(_id ? "GALERI · PROJECT CHRONO UNTUK .NET" : "GALLERY · PROJECT CHRONO FOR .NET")</p>
+            </div>
+        </header>
+        <div class="search-row">
+            <input class="search" type="search" placeholder="@(_id ? "Cari contoh" : "Search samples")" @bind="_query" @bind:event="oninput" aria-label="@(_id ? "Cari contoh" : "Search samples")" />
+            <button class="lang" @onclick="() => _id = !_id" aria-label="Switch language">@(_id ? "ID" : "EN")</button>
+        </div>
+        <nav class="samples">
+            @foreach (var group in SampleCatalog.All.GroupBy(s => s.Category))
+            {
+                var items = group.Where(Matches).ToList();
+                if (items.Count == 0) continue;
+                <h2 class="eyebrow group">@CategoryName(group.Key).ToUpperInvariant() · @items.Count</h2>
+                @foreach (var s in items)
+                {
+                    <a class="sample @(s == _sample ? "active" : "")" href="samples/@s.Id" aria-current="@(s == _sample ? "page" : null)">
+                        <span class="sample-title">@s.Title</span>
+                        <span class="sample-tags">@string.Join(" · ", s.Tags.Take(2))</span>
+                    </a>
+                }
+            }
+        </nav>
+        <footer class="credits">
+            <p class="mono">@EngineLine</p>
+            <p>@(_id ? ChronoEngine.CreditsId : ChronoEngine.Credits)</p>
+        </footer>
+    </aside>
+
+    <main class="stage">
+        @if (_sample is not null)
+        {
+            <p class="eyebrow signal">@CategoryName(_sample.Category).ToUpperInvariant()</p>
+            <h2 class="title">@_sample.Title</h2>
+            <div class="readout mono" aria-live="off">@_readout</div>
+
+            <div class="viewport">
+                @if (_error is null && _world is not null)
+                {
+                    <ChronoViewport @ref="_viewport" World="_world" Camera="_camera" />
+                }
+                else
+                {
+                    <div class="empty">
+                        <h3>@(_error is null ? "…" : _id ? "Mesin native tidak ditemukan" : "Native engine not found")</h3>
+                        <p>@_error</p>
+                    </div>
+                }
+            </div>
+
+            <div class="transport">
+                <button class="primary" @onclick="ToggleRun" disabled="@(_loop is null)">@RunLabel</button>
+                <button @onclick="StepOnce" disabled="@(_loop is null || _loop.IsRunning)">@(_id ? "Langkah" : "Step")</button>
+                <button @onclick="Reset" disabled="@(_loop is null)">@(_id ? "Ulang" : "Reset")</button>
+                <label class="speed">
+                    <span>@(_id ? "Kecepatan" : "Speed")</span>
+                    <input type="range" min="0.1" max="2" step="0.1" value="@_speed" @oninput="SetSpeed" />
+                    <span class="mono">@_speed.ToString("0.0")×</span>
+                </label>
+                <span class="hint">@(_id ? "Seret untuk memutar · gulir untuk zoom" : "Drag to orbit · scroll to zoom")</span>
+            </div>
+
+            <ChronoPlot Series="_series" TimeWindow="8" Class="scope" />
+        }
+    </main>
+
+    <aside class="inspector">
+        <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="@(!_showCode)" class="@(!_showCode ? "on" : "")" @onclick="() => _showCode = false">@(_id ? "Tentang" : "About")</button>
+            <button role="tab" aria-selected="@_showCode" class="@(_showCode ? "on" : "")" @onclick="() => _showCode = true">@(_id ? "Kode" : "Code")</button>
+        </div>
+        @if (_sample is not null)
+        {
+            @if (!_showCode)
+            {
+                <section class="about">
+                    <p class="description">@(_id ? _sample.DescriptionId : _sample.Description)</p>
+                    <h3 class="eyebrow">@(_id ? "MENDEMONSTRASIKAN" : "DEMONSTRATES")</h3>
+                    <ul class="tags">@foreach (var t in _sample.Tags) { <li>@t</li> }</ul>
+                    <h3 class="eyebrow">@(_id ? "SINYAL" : "SIGNALS")</h3>
+                    <ul class="signals">
+                        @foreach (var s in _series)
+                        {
+                            <li><i style="background:@s.Color"></i><span>@s.Name</span><span class="mono">@s.Last.ToString("0.###") @s.Unit</span></li>
+                        }
+                    </ul>
+                </section>
+            }
+            else
+            {
+                <pre class="code"><code>@_sample.SourceCode</code></pre>
+            }
+        }
+    </aside>
+</div>
+
+@code {
+    [Parameter] public string? SampleId { get; set; }
+
+    private Sample? _sample;
+    private SampleRun? _run;
+    private RenderWorld? _world;
+    private SimulationLoop? _loop;
+    private ChronoViewport? _viewport;
+    private ViewportCamera? _camera;
+    private readonly List<SignalSeries> _series = [];
+    private string _query = "";
+    private string _readout = "—";
+    private string? _error;
+    private bool _id, _showCode;
+    private double _speed = 1;
+    private int _frame;
+
+    private string RunLabel => _loop?.IsRunning == true ? (_id ? "Jeda" : "Pause") : (_id ? "Jalankan" : "Run");
+
+    private static string EngineLine => ChronoEngine.IsAvailable
+        ? $"Chrono {ChronoEngine.ChronoVersion} · Chrono.Net {ChronoEngine.Version}"
+        : $"Chrono.Net {ChronoEngine.Version} · native engine missing";
+
+    private string CategoryName(string c) => !_id ? c : c switch
+    {
+        "Basics" => "Dasar", "Mechanisms" => "Mekanisme", "Contacts" => "Kontak",
+        "Robotics" => "Robotika", "Vehicles" => "Kendaraan", _ => c,
+    };
+
+    private bool Matches(Sample s) => _query.Length == 0
+        || s.Title.Contains(_query, StringComparison.OrdinalIgnoreCase)
+        || s.Tags.Any(t => t.Contains(_query, StringComparison.OrdinalIgnoreCase));
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var sample = SampleCatalog.Find(SampleId ?? "mixer") ?? SampleCatalog.All[0];
+        if (sample != _sample) await LoadAsync(sample, autoRun: true);
+    }
+
+    private async Task LoadAsync(Sample sample, bool autoRun)
+    {
+        await StopAsync();
+        _sample = sample;
+        _series.Clear();
+        _error = null;
+        if (!ChronoEngine.IsAvailable)
+        {
+            _error = _id
+                ? "Bangun dengan ./build/build-native.ps1 lalu jalankan ulang server."
+                : "Build it with ./build/build-native.ps1, then restart the server. Samples and code stay browsable.";
+            return;
+        }
+        if (sample.RequiresVehicle && !ChronoEngine.VehicleSupported)
+        {
+            _error = "This native build has no Chrono::Vehicle module.";
+            return;
+        }
+        try
+        {
+            _run = sample.Create();
+            _world = new RenderWorld(_run.System, sample.UpIsZ);
+            _run.DecorateWorld?.Invoke(_world);
+        }
+        catch (ChronoException ex)
+        {
+            _error = ex.Message;
+            return;
+        }
+
+        // The followed body (e.g. a vehicle chassis) is located in system order by its position.
+        int follow = -1;
+        if (_run.Follow is { } f)
+        {
+            var target = f.Position;
+            for (int i = 0; i < _run.System.Bodies.Count && follow < 0; i++)
+                if (_run.System.Bodies[i].Position == target) follow = i;
+        }
+        var c = _run.Camera;
+        _camera = new ViewportCamera(c.Target, c.Distance, c.YawDeg, c.PitchDeg, follow);
+        for (int i = 0; i < _run.Probes.Count; i++)
+            _series.Add(new SignalSeries(_run.Probes[i].Name, _run.Probes[i].Unit, SignalSeries.Palette[i % SignalSeries.Palette.Length]));
+
+        _loop = new SimulationLoop(_run.Step, sample.TimeStep) { Speed = _speed, Frame = OnFrameAsync };
+        if (autoRun) _loop.Start();
+    }
+
+    private async Task OnFrameAsync()
+    {
+        if (_run is null || _world is null) return;
+        _run.UpdateWorld?.Invoke(_world);
+        _world.Update();
+        double t = _run.System.Time;
+        for (int i = 0; i < _series.Count; i++) _series[i].Add(t, _run.Probes[i].Read());
+        if (_viewport is not null) await InvokeAsync(_viewport.PushFrameAsync);
+        if (_frame++ % 3 == 0)
+        {
+            var sys = _run.System;
+            _readout = $"t {t,7:0.00} s   dt {_sample!.TimeStep * 1000:0.0##} ms   {sys.Bodies.Count} {(_id ? "benda" : "bodies")}   " +
+                       $"{sys.Links.Count} {(_id ? "sambungan" : "links")}   {sys.ContactCount} {(_id ? "kontak" : "contacts")}   " +
+                       $"{(_loop is { IsRunning: true } l ? $"{l.RealTimeFactor:0.00}×" : "–")} {(_id ? "waktu nyata" : "real time")}";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task ToggleRun()
+    {
+        if (_loop is null) return;
+        if (_loop.IsRunning) await _loop.PauseAsync();
+        else _loop.Start();
+    }
+
+    private async Task StepOnce()
+    {
+        if (_loop is { IsRunning: false }) await _loop.StepOnceAsync();
+    }
+
+    private async Task Reset()
+    {
+        if (_sample is not null) await LoadAsync(_sample, autoRun: true);
+    }
+
+    private void SetSpeed(ChangeEventArgs e)
+    {
+        if (double.TryParse(e.Value?.ToString(), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v))
+        {
+            _speed = v;
+            if (_loop is not null) _loop.Speed = v;
+        }
+    }
+
+    private async Task StopAsync()
+    {
+        if (_loop is not null) await _loop.DisposeAsync();
+        _loop = null;
+        _run?.Dispose();
+        _run = null;
+        _world = null;
+    }
+
+    public async ValueTask DisposeAsync() => await StopAsync();
+}

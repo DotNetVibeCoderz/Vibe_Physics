@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+*.user
+artifacts/
+external/
+!external/README.md
+TestResults/
+*.nupkg
+*.snupkg
+node_modules/
+.idea/

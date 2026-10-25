@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <IsPackable>false</IsPackable>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <ApplicationIcon Condition="Exists('..\..\assets\icon.ico')">..\..\assets\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+    <PackageReference Include="Avalonia.Desktop" />
+    <PackageReference Include="Avalonia.Themes.Fluent" />
+    <PackageReference Include="Avalonia.Fonts.Inter" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="..\..\assets\icon.png" Link="Assets\icon.png" Condition="Exists('..\..\assets\icon.png')" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Avalonia\Chrono.Net.Avalonia.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Samples\Chrono.Net.Samples.csproj" />
+  </ItemGroup>
+
+</Project>

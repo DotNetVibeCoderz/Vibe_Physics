@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Gravicode Studios (led by Kang Fadhil)",
+  "classifications": [ "Web", "Blazor", "Simulation", "Physics" ],
+  "identity": "Chrono.Net.Templates.Blazor",
+  "name": "Chrono.Net Blazor App",
+  "description": "A Blazor Web App (interactive server) streaming a live Chrono.Net simulation to a WebGL viewport.",
+  "shortName": "chrono-blazor",
+  "sourceName": "ChronoBlazorApp",
+  "preferNameDirectory": true,
+  "tags": { "language": "C#", "type": "project" }
+}

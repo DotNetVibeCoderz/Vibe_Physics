@@ -1,0 +1,57 @@
+@namespace Chrono.Net.Blazor
+@using System.Globalization
+@using System.Text
+
+<div class="chrono-plot @Class">
+    @for (int i = 0; i < Series.Count; i++)
+    {
+        var s = Series[i];
+        var (path, min, max) = BuildPath(s);
+        <div class="chrono-plot-band">
+            <div class="chrono-plot-head">
+                <span class="chrono-plot-name" style="color:@s.Color">@s.Name</span>
+                <span class="chrono-plot-value">@s.Last.ToString("0.###", CultureInfo.InvariantCulture) @s.Unit</span>
+                <span class="chrono-plot-range">@max.ToString("0.##", CultureInfo.InvariantCulture) / @min.ToString("0.##", CultureInfo.InvariantCulture)</span>
+            </div>
+            <svg viewBox="0 0 1000 100" preserveAspectRatio="none" role="img" aria-label="@s.Name">
+                <line x1="0" y1="50" x2="1000" y2="50" class="chrono-plot-grid" />
+                <path d="@path" fill="none" stroke="@s.Color" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round" />
+            </svg>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<SignalSeries> Series { get; set; } = [];
+    /// <summary>Visible time span (s).</summary>
+    [Parameter] public double TimeWindow { get; set; } = 8;
+    [Parameter] public string? Class { get; set; }
+
+    private (string Path, double Min, double Max) BuildPath(SignalSeries s)
+    {
+        if (s.Count == 0) return ("", 0, 0);
+        double tMax = s.LastTime, tMin = tMax - TimeWindow;
+        var window = new List<double>(s.Count);
+        for (int i = 0; i < s.Count; i++)
+        {
+            var (t, y) = s[i];
+            if (t >= tMin) window.Add(y);
+        }
+        var (min, max) = SignalRange.Robust(System.Runtime.InteropServices.CollectionsMarshal.AsSpan(window));
+        double pad = (max - min) * 0.08;
+        double lo = min - pad, hi = max + pad;
+        var sb = new StringBuilder(s.Count * 14);
+        bool first = true;
+        for (int i = 0; i < s.Count; i++)
+        {
+            var (t, y) = s[i];
+            if (t < tMin) continue;
+            double x = (t - tMin) / TimeWindow * 1000;
+            double py = 100 - Math.Clamp((y - lo) / (hi - lo), 0, 1) * 100;
+            sb.Append(first ? 'M' : 'L').Append(x.ToString("0.#", CultureInfo.InvariantCulture)).Append(',')
+              .Append(py.ToString("0.#", CultureInfo.InvariantCulture));
+            first = false;
+        }
+        return (sb.ToString(), min, max);
+    }
+}

@@ -1,0 +1,32 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+
+    <!-- Package metadata -->
+    <Version>0.1.0</Version>
+    <Authors>Gravicode Studios (led by Kang Fadhil)</Authors>
+    <Company>Gravicode Studios</Company>
+    <Copyright>Copyright © Gravicode Studios. Wraps Project Chrono (BSD-3-Clause, see THIRD-PARTY-NOTICES.md).</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/DotNetVibeCoderz/Vibe_Physics/tree/main/Chrono.Net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/DotNetVibeCoderz/Vibe_Physics</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>chrono;physics;multibody;simulation;fea;vehicle;robotics;dynamics</PackageTags>
+
+    <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
+    <NativeArtifacts>$(RepoRoot)artifacts\native\</NativeArtifacts>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(IsPackable)' != 'false'">
+    <None Include="$(RepoRoot)assets\icon.png" Pack="true" PackagePath="\" Visible="false" Condition="Exists('$(RepoRoot)assets\icon.png')" />
+    <None Include="$(RepoRoot)README.md" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(RepoRoot)THIRD-PARTY-NOTICES.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+</Project>

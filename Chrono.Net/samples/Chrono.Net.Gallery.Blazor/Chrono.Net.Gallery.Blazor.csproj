@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>Chrono.Net.Gallery.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Blazor\Chrono.Net.Blazor.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Samples\Chrono.Net.Samples.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\..\assets\fonts\*.ttf" Link="shared-assets\fonts\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\assets\icon.png" Link="shared-assets\icon.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" Condition="Exists('..\..\assets\icon.png')" />
+  </ItemGroup>
+
+</Project>

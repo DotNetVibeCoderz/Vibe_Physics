@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Chrono.Net</AssemblyName>
+    <RootNamespace>Chrono.Net</RootNamespace>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573;CS0419;CS1734</NoWarn>
+    <PackageId>Chrono.Net</PackageId>
+    <Description>High-performance .NET 10 wrapper for Project Chrono: multibody dynamics, contacts, joints, motors, springs, FEA beams/cables, vehicles and terrain. Ships native win-x64 binaries.</Description>
+  </PropertyGroup>
+
+  <!-- Native binaries produced by build/build-native.ps1 -->
+  <ItemGroup Condition="Exists('$(NativeArtifacts)win-x64')">
+    <None Include="$(NativeArtifacts)win-x64\*.dll"
+          Pack="true" PackagePath="runtimes\win-x64\native\"
+          CopyToOutputDirectory="PreserveNewest" Link="%(Filename)%(Extension)" Visible="false" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>chrono</AssemblyName>
+    <RootNamespace>Chrono.Net.Cli</RootNamespace>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>chrono</ToolCommandName>
+    <PackageId>Chrono.Net.Cli</PackageId>
+    <Description>Command-line tool for Chrono.Net: inspect the engine, run and benchmark scenes, export CSV, render PNG/GIF.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+    <ProjectReference Include="..\..\src\Chrono.Net.Samples\Chrono.Net.Samples.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsAotCompatible>true</IsAotCompatible>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+    <PackageId>Chrono.Net.Rendering</PackageId>
+    <Description>Platform-neutral rendering for Chrono.Net: render meshes from Chrono visual shapes, orbit camera, a multithreaded software rasterizer with shadows, and PNG/GIF export.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chrono.Net\Chrono.Net.csproj" />
+  </ItemGroup>
+
+</Project>

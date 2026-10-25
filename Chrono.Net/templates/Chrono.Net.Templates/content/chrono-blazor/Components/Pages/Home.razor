@@ -1,0 +1,59 @@
+@page "/"
+@implements IAsyncDisposable
+
+<main>
+    <h1 style="margin:0">Newton's cradle · Chrono.Net</h1>
+    <div class="view"><ChronoViewport @ref="_viewport" World="_world" Camera="_camera" /></div>
+    <div><button @onclick="Toggle">@(_loop.IsRunning ? "Pause" : "Run")</button></div>
+    <ChronoPlot Series="_series" />
+</main>
+
+@code {
+    private readonly ChSystem _sys = new();
+    private RenderWorld _world = default!;
+    private SimulationLoop _loop = default!;
+    private ChronoViewport? _viewport;
+    private readonly ViewportCamera _camera = new(new Vec3(0, 1.2, 0), 4.5, 15, 10);
+    private readonly List<SignalSeries> _series = [new("Left ball x", "m", "#F2A33A"), new("Right ball x", "m", "#3CC8B4")];
+    private ChBody _left = default!, _right = default!;
+
+    protected override void OnInitialized()
+    {
+        var steel = _sys.Own(new ContactMaterial { Friction = 0, Restitution = 1 });
+        var anchor = _sys.Add(new ChBody { IsFixed = true, CollisionEnabled = false });
+        var balls = new List<ChBody>();
+        for (int i = 0; i < 5; i++)
+        {
+            var pivot = new Vec3((i - 2) * 0.3001, 2, 0);
+            var ball = ChBody.CreateSphere(0.15, 7800, steel).Colored(Color.Gray).At(pivot - new Vec3(0, 1.2, 0));
+            if (i == 0) ball.Position = pivot + Quat.FromAngleZ(-0.8).Rotate(new Vec3(0, -1.2, 0));
+            _sys.Add(ball);
+            _sys.Add(ChJoint.Revolute(ball, anchor, pivot, Vec3.UnitZ));
+            balls.Add(ball);
+        }
+        (_left, _right) = (balls[0], balls[4]);
+        _world = new RenderWorld(_sys);
+        _loop = new SimulationLoop(_sys.Step, 0.0005) { Frame = OnFrame };
+        _loop.Start();
+    }
+
+    private async Task OnFrame()
+    {
+        _world.Update();
+        _series[0].Add(_sys.Time, _left.Position.X);
+        _series[1].Add(_sys.Time, _right.Position.X);
+        if (_viewport is not null) await InvokeAsync(_viewport.PushFrameAsync);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task Toggle()
+    {
+        if (_loop.IsRunning) await _loop.PauseAsync(); else _loop.Start();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _loop.DisposeAsync();
+        _sys.Dispose();
+    }
+}

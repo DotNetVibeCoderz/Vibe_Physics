@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PackageId>Chrono.Net.Avalonia</PackageId>
+    <Description>Avalonia UI controls for Chrono.Net: interactive 3D simulation viewport, live signal plots, a real-time simulation host and the instrument-bench theme.</Description>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Themes\*.axaml" />
+    <AvaloniaResource Include="..\..\assets\fonts\*.ttf" Link="Assets\Fonts\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Chrono.Net\Chrono.Net.csproj" />
+    <ProjectReference Include="..\Chrono.Net.Rendering\Chrono.Net.Rendering.csproj" />
+  </ItemGroup>
+
+</Project>
